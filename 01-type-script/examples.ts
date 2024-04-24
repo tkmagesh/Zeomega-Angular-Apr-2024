@@ -50,4 +50,29 @@ let values : number[] = [3,1,4,2,5]
 // using the spread operator for arguments
 console.log(addNos(...values))
 
+// Object Destructuring
+let product = {
+    id : 100,
+    name : 'Pen',
+    cost : 10
+}
+
+// the variable names must match the attribute names
+/* 
+let { id, cost } = product
+console.log(id, cost) 
+*/
+
+// if the variable names are different from the attribute names
+let { id : pid, cost : pcost} = product
+console.log(pid, pcost)
+
+// Rest Operator (objects)
+let { id, ...p_attrs} = product
+console.log(p_attrs)
+
+// Spread Operator (objects)
+let productWithCategory = { ...product, category : 'stationary'}
+console.log(productWithCategory)
+
 
