@@ -153,3 +153,106 @@ console.log('total :', total2);
 console.log('// (Array) reduce [min]');
 var minValue = list.reduce(function (prevResult, val) { return prevResult < val ? prevResult : val; });
 console.log('min :', minValue);
+// Find the number of even & odd numbers
+/*
+let evenOddCount = list.reduce((prevResult, no) => no % 2 === 0 ? ({ ...prevResult, even: prevResult.even + 1 }) : ({ ...prevResult, odd: prevResult.odd + 1 }), { even : 0, odd : 0})
+*/
+var evenOddCount = list.reduce(function (_a, no) {
+    var even = _a.even, odd = _a.odd;
+    return no % 2 === 0 ? ({ even: even + 1, odd: odd }) : ({ even: even, odd: odd + 1 });
+}, { even: 0, odd: 0 });
+// template strings
+var n1 = 10, n2 = 20;
+// sum of 10 and 20 is 30
+var s1 = 'sum of ' + n1 + ' and ' + n2 + ' is ' + (n1 + n2);
+// using template strings
+var s2 = "sum of ".concat(n1, " and ").concat(n2, " is ").concat(n1 + n2);
+// for of (iterators)
+for (var _i = 0, list_1 = list; _i < list_1.length; _i++) {
+    var no = list_1[_i];
+    console.log("no : ".concat(no));
+}
+// Class
+/*
+class Employee {
+
+    // instance attributes
+    private _id : number = 0
+    public name : string;
+    public salary : number;
+   
+
+    // static attributes
+    static ModelType : string = 'Employee';
+
+    // accessor methods
+    public set id(val : number) {
+        console.log('id[setter] triggered')
+        if (val < 0){
+            throw new Error('Invalid id')
+        }
+        this._id = id
+    }
+
+    public get id() : number {
+        console.log('id[getter] triggered')
+        return this._id;
+    }
+
+    // constructor
+    
+    constructor(id : number, name : string, salary : number){
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+    }
+   
+
+    // instance methods
+    public Format() : string {
+        return `id = ${this.id}, name = ${this.name}, salary = ${this.salary}`
+    }
+
+    // static methods
+    static IsEmployee(obj : any) {
+        return obj instanceof Employee;
+    }
+}
+*/
+var Employee = /** @class */ (function () {
+    // constructor
+    function Employee(_id, name, salary) {
+        this._id = _id;
+        this.name = name;
+        this.salary = salary;
+    }
+    Object.defineProperty(Employee.prototype, "id", {
+        get: function () {
+            console.log('id[getter] triggered');
+            return this._id;
+        },
+        // accessor methods
+        set: function (val) {
+            console.log('id[setter] triggered');
+            if (val < 0) {
+                throw new Error('Invalid id');
+            }
+            this._id = id;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    // instance methods
+    Employee.prototype.Format = function () {
+        return "id = ".concat(this.id, ", name = ").concat(this.name, ", salary = ").concat(this.salary);
+    };
+    // static methods
+    Employee.IsEmployee = function (obj) {
+        return obj instanceof Employee;
+    };
+    // static attributes
+    Employee.ModelType = 'Employee';
+    return Employee;
+}());
+var emp = new Employee(100, 'Magesh', 10000);
+console.log(emp.Format());

@@ -143,3 +143,112 @@ console.log('total :', total2)
 console.log('// (Array) reduce [min]')
 let minValue = list.reduce((prevResult, val) => prevResult < val ? prevResult : val)
 console.log('min :', minValue)
+
+// Find the number of even & odd numbers
+/* 
+let evenOddCount = list.reduce((prevResult, no) => no % 2 === 0 ? ({ ...prevResult, even: prevResult.even + 1 }) : ({ ...prevResult, odd: prevResult.odd + 1 }), { even : 0, odd : 0}) 
+*/
+
+let evenOddCount = list.reduce(({even, odd}, no) => no % 2 === 0 ? ({ even : even + 1, odd}) : ({ even, odd : odd + 1 }), { even: 0, odd: 0 })
+
+// template strings
+let n1 = 10, n2 = 20
+// sum of 10 and 20 is 30
+let s1 = 'sum of ' + n1 + ' and ' + n2 + ' is ' + (n1 + n2)
+// using template strings
+let s2 = `sum of ${n1} and ${n2} is ${n1 + n2}`
+
+// for of (iterators)
+for (let no of list){
+    console.log(`no : ${no}`)
+}
+
+// Class
+/* 
+class Employee {
+
+    // instance attributes
+    private _id : number = 0
+    public name : string;
+    public salary : number; 
+   
+
+    // static attributes
+    static ModelType : string = 'Employee';
+
+    // accessor methods
+    public set id(val : number) {
+        console.log('id[setter] triggered')
+        if (val < 0){
+            throw new Error('Invalid id')
+        }
+        this._id = id
+    }
+
+    public get id() : number {
+        console.log('id[getter] triggered')
+        return this._id;
+    }
+
+    // constructor
+    
+    constructor(id : number, name : string, salary : number){
+        this.id = id;
+        this.name = name;
+        this.salary = salary; 
+    } 
+   
+
+    // instance methods
+    public Format() : string {
+        return `id = ${this.id}, name = ${this.name}, salary = ${this.salary}`
+    }
+
+    // static methods
+    static IsEmployee(obj : any) {
+        return obj instanceof Employee;
+    }
+} 
+*/
+
+class Employee {
+
+    // static attributes
+    static ModelType: string = 'Employee';
+
+    // accessor methods
+    public set id(val: number) {
+        console.log('id[setter] triggered')
+        if (val < 0) {
+            throw new Error('Invalid id')
+        }
+        this._id = id
+    }
+
+    public get id(): number {
+        console.log('id[getter] triggered')
+        return this._id;
+    }
+
+    // constructor
+
+    constructor(private _id: number, public name: string, public salary: number) {
+       
+    }
+
+
+    // instance methods
+    public Format(): string {
+        return `id = ${this.id}, name = ${this.name}, salary = ${this.salary}`
+    }
+
+    // static methods
+    static IsEmployee(obj: any) {
+        return obj instanceof Employee;
+    }
+}
+
+let emp = new Employee(100, 'Magesh', 10000)
+console.log(emp.Format())
+
+
