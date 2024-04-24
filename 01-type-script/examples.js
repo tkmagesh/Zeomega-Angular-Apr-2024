@@ -92,3 +92,64 @@ console.log(p_attrs);
 // Spread Operator (objects)
 var productWithCategory = __assign(__assign({}, product), { category: 'stationary' });
 console.log(productWithCategory);
+// default arguments (functions)
+console.log('// default arguments (functions)');
+function addDefualts(x, y) {
+    if (x === void 0) { x = 10; }
+    if (y === void 0) { y = 20; }
+    return x + y;
+}
+console.log(addDefualts());
+console.log(addDefualts(100));
+console.log(addDefualts(undefined, 200));
+console.log(addDefualts(100, 200));
+// arrow functions
+console.log('// arrow functions');
+/*
+1. function statement
+function add(x,y){
+    return x + y
+}
+2. function expression
+let add = function(x,y){
+    return x + y
+}
+
+3. arrow function
+let add = (x,y) => {
+    return x + y
+}
+*/
+var arrowAdd = function (x, y) { return x + y; };
+console.log(arrowAdd(100, 200));
+// Array methods (forEach, map, reduce, filter)
+var list = [3, 1, 4, 2, 5];
+// forEach
+console.log('// (Array) forEach');
+list.forEach(function (n) { return console.log('value :', n); });
+// filter
+console.log('// (Array) filter');
+var evenNos = list.filter(function (n) { return n % 2 === 0; });
+console.log('evenNos :', evenNos);
+// map
+console.log('// (Array) map');
+var doubleNos = list.map(function (n) { return n * 2; });
+console.log('doubleNos :', doubleNos);
+// reduce
+console.log('// (Array) reduce [sum]');
+var total = list.reduce(function (prevResult, val) {
+    var currResult = prevResult + val;
+    console.log("prevResult : ".concat(prevResult, ", val = ").concat(val, ", currResult : ").concat(currResult));
+    return currResult;
+});
+console.log('total :', total);
+console.log('// (Array) reduce [sum v2.0]');
+var total2 = list.reduce(function (prevResult, val) {
+    var currResult = prevResult + val;
+    console.log("prevResult : ".concat(prevResult, ", val = ").concat(val, ", currResult : ").concat(currResult));
+    return currResult;
+}, 0);
+console.log('total :', total2);
+console.log('// (Array) reduce [min]');
+var minValue = list.reduce(function (prevResult, val) { return prevResult < val ? prevResult : val; });
+console.log('min :', minValue);
