@@ -248,7 +248,52 @@ class Employee {
     }
 }
 
+/* 
 let emp = new Employee(100, 'Magesh', 10000)
-console.log(emp.Format())
+console.log(emp.Format()) 
+*/
+
+// class Inheritance
+class FullTimeEmployee extends Employee {
+    constructor(id : number, name : string, salary : number, public benefits : string) {
+        super(id, name, salary)
+    }
+
+    // overriding the base class method
+    override Format(): string {
+        return `${super.Format()}, benefits = ${this.benefits}`    
+    }
+}
+
+let fte = new FullTimeEmployee(200 ,'Suresh', 20000 , 'health insurance')
+console.log(fte.Format())
+
+// interfaces
+interface Product {
+    id : number
+    name : string
+    cost : number
+}
+
+function applyDiscount(p : Product, discount : number){
+    p.cost = p.cost * ((100-discount)/100)
+}
+
+let anyObj = {
+    id : 100,
+    name : 'any name',
+    cost : 10,
+    category : 'stationary'
+};
+applyDiscount(anyObj, 10)
+console.log(anyObj)
 
 
+// enums
+enum Colors {
+    Red = 'RED',
+    Blue = 'BLUE',
+    Green = 'GREEN'
+}
+
+console.log(`Red = ${Colors.Red}, Blue = ${Colors.Blue}, Green = ${Colors.Green}`)

@@ -10,3 +10,6 @@ in terminal-1
 
 in terminal-2
 > node examples.js
+
+## Reference
+- https://www.typescriptlang.org

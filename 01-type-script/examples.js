@@ -1,3 +1,18 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -254,5 +269,42 @@ var Employee = /** @class */ (function () {
     Employee.ModelType = 'Employee';
     return Employee;
 }());
-var emp = new Employee(100, 'Magesh', 10000);
-console.log(emp.Format());
+/*
+let emp = new Employee(100, 'Magesh', 10000)
+console.log(emp.Format())
+*/
+// class Inheritance
+var FullTimeEmployee = /** @class */ (function (_super) {
+    __extends(FullTimeEmployee, _super);
+    function FullTimeEmployee(id, name, salary, benefits) {
+        var _this = _super.call(this, id, name, salary) || this;
+        _this.benefits = benefits;
+        return _this;
+    }
+    // overriding the base class method
+    FullTimeEmployee.prototype.Format = function () {
+        return "".concat(_super.prototype.Format.call(this), ", benefits = ").concat(this.benefits);
+    };
+    return FullTimeEmployee;
+}(Employee));
+var fte = new FullTimeEmployee(200, 'Suresh', 20000, 'health insurance');
+console.log(fte.Format());
+function applyDiscount(p, discount) {
+    p.cost = p.cost * ((100 - discount) / 100);
+}
+var anyObj = {
+    id: 100,
+    name: 'any name',
+    cost: 10,
+    category: 'stationary'
+};
+applyDiscount(anyObj, 10);
+console.log(anyObj);
+// enums
+var Colors;
+(function (Colors) {
+    Colors["Red"] = "RED";
+    Colors["Blue"] = "BLUE";
+    Colors["Green"] = "GREEN";
+})(Colors || (Colors = {}));
+console.log("Red = ".concat(Colors.Red, ", Blue = ").concat(Colors.Blue, ", Green = ").concat(Colors.Green));
