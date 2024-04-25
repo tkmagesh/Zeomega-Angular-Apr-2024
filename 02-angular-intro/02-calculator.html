@@ -64,6 +64,9 @@
     </script>
 </head>
 <body ng-app="app">
+    <button>Calculator-1</button>
+    <button>Calculator-2</button>
+    <hr>
     <div ng-controller="calculator1Controller">
         <h3>Calculator - 1</h3>
         <hr>
@@ -74,21 +77,24 @@
         <button ng-click="onSubtract()">Subtract</button>
         <button ng-click="onMultiply()">Multiply</button>
         <button ng-click="onDivide()">Divide</button>
-        <div ng-class="{ positive : result >= 0, negative : result < 0}">{{result}}</div>
+        <div ng-class="{ positive : result >= 0, negative : result < 0}">{{result | currency:'INR'}}</div>
     </div>
     <div ng-controller="calculator2Controller">
         <h3>Calculator-2</h3>
         <hr>
         <input type="number" ng-model="n1">
         <select ng-model="selectedOperation">
+            <option value="">---Select---</option>
             <option value="add">Add</option>
             <option value="subtract">Subtract</option>
             <option value="multiply">Multiply</option>
             <option value="divide">Divide</option>
         </select>
         <input type="number" ng-model="n2">
-        <button ng-click="onCalculate()">Calculate</button>
-        <div>{{result}}</div>
+        <button ng-click="onCalculate()" ng-disabled="!selectedOperation">Calculate</button>
+        <!-- <div ng-hide="selectedOperation">Select an operation!</div> -->
+        <div ng-if="!selectedOperation">Select an operation!</div>
+        <div ng-show="selectedOperation">{{result}}</div>
     </div>
 </body>
 </html>
