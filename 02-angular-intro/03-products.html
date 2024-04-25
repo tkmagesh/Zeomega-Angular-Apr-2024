@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <script src="angular.js"></script>
+    <script>
+        var appModule = angular.module('appModule', []);
+        appModule.controller('productsController', function($scope){
+            $scope.products = [
+                'Mouse',
+                'Adapter',
+                'Stencil',
+                'Tablet PC'
+            ]
+        })
+    </script>
+</head>
+<body ng-app="appModule">
+    <div ng-controller="productsController">
+        <h3>Products</h3>
+        <div>Count : {{products.length}}</div>
+        <div>
+            <label for="">Product Name :</label>
+            <input type="text" name="" id="">
+            <button>Add New</button>
+        </div>
+        <ul>
+            <li>
+                <span>Pen</span>
+                <span> <button> X </button> </span>
+            </li>
+        </ul>
+        <!-- 
+            <ul>
+                <li ng-repeat="product in products">{{product}}</li>
+            </ul> 
+        -->
+    </div>
+</body>
+</html>
