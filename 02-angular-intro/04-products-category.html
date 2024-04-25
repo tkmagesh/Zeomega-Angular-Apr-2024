@@ -12,32 +12,44 @@
             cost = 0;
             units = 0;
             category = '';
-
-            get total() {
-                return this.cost * this.units;
+            get total(){
+                return this.cost * this.units
             }
         }
         var appModule = angular.module('appModule', []);
-        appModule.controller('productsController', function($scope){
-            $scope.products = [];
-            $scope.newProduct = new Product();
-            $scope.onAdd= function(){
-                $scope.products.push($scope.newProduct)
+
+        appModule.service('productsService', function(){
+            this.products = [];
+
+            this.addNew = function(newProduct){
+                var newProductId = this.products.reduce(function(prevResult, product){
+                    return prevResult > product.id ? prevResult : product.id
+                }, 0) + 1;
+                newProduct.id = newProductId;
+                this.products.push(newProduct)
+            };
+
+            this.remove = function(id){
+                this.products = this.products.filter(p => p.id !== id)
+            };
+
+            this.total = function(){
+                return this.products.reduce(function(prevResult, product){
+                    return prevResult + product.total
+                }, 0)
+            }
+        });
+
+        appModule.controller('productsController', function($scope, productsService){
+            $scope.productsService = productsService;
+            
+            $scope.onAdd = function(){
+                productsService.addNew($scope.newProduct)
                 $scope.newProduct = new Product();
             };
-            $scope.onRemove = function(idx){
-                $scope.products.splice(idx,1)
-            };
-            $scope.productsByCategory= function(){
-                return $scope.products.reduce(function(prevResult, product){
-                    var currentResult = { ...prevResult }
-                    currentResult[product.category] = currentResult[product.category] || []
-                    currentResult[product.category].push(product)
-                    return currentResult;
-                }, {})
-            }
-            $scope.printProductsByCategory = function(){
-                console.log($scope.productsByCategory())
+            
+            $scope.onRemove = function(id){
+                productsService.remove(id);
             }
         })
     </script>
@@ -45,7 +57,6 @@
 <body ng-app="appModule">
     <div ng-controller="productsController">
         <h3>Products</h3>
-        <button ng-click="printProductsByCategory()">Print Product By Category</button>
         <table>
             <thead>
                 <tr>
@@ -81,12 +92,10 @@
                 </tr>
             </tbody>
         </table>
-        <div ng-repeat="(category, products) in productsByCategory()">
-            <h3>{{category}}</h3>
-            <table>
+        <table>
                 <thead>
                     <tr>
-                        <th>S.No</th>
+                        <th>Id</th>
                         <th>Name</th>
                         <th>Category</th>
                         <th>Cost</th>
@@ -96,17 +105,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="product in products">
-                        <td>{{$index+1}}</td>
+                    <tr ng-repeat="product in productsService.products">
+                        <td>{{product.id}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.category}}</td>
                         <td>{{product.cost}}</td>
                         <td>{{product.units}}</td>
                         <td>{{product.total}}</td>
-                        <td><button>Remove</button></td>
+                        <td><button ng-click="onRemove(product.id)">Remove</button></td>
                     </tr>
                 </tbody>
             </table>
+            <div>Total : {{productsService.total()}}</div>
+        </div>
         </div>
 </body>
 </html>

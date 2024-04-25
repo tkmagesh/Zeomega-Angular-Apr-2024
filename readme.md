@@ -1,3 +1,5 @@
+# Reference
+- https://bit.ly/angular-training-videos
 
 ## Schedule
 - Commence      : 10:00 AM 
@@ -43,3 +45,4 @@ https://github.com/tkmagesh/zeomega-angular-apr-2024
 #### Modules
 
 ![image](./images/products-assignment.png)
+
