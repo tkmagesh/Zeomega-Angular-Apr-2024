@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <script src="angular.js"></script>
+    <script>
+        class Product {
+            id = 0;
+            name = '';
+            cost = 0;
+            units = 0;
+            category = '';
+
+            get total() {
+                return this.cost * this.units;
+            }
+        }
+        var appModule = angular.module('appModule', []);
+        appModule.controller('productsController', function($scope){
+            $scope.products = [];
+            $scope.newProduct = new Product();
+            $scope.onAdd= function(){
+                $scope.products.push($scope.newProduct)
+                $scope.newProduct = new Product();
+            };
+            $scope.onRemove = function(idx){
+                $scope.products.splice(idx,1)
+            };
+            $scope.productsByCategory= function(){
+                return $scope.products.reduce(function(prevResult, product){
+                    var currentResult = { ...prevResult }
+                    currentResult[product.category] = currentResult[product.category] || []
+                    currentResult[product.category].push(product)
+                    return currentResult;
+                }, {})
+            }
+            $scope.printProductsByCategory = function(){
+                console.log($scope.productsByCategory())
+            }
+        })
+    </script>
+</head>
+<body ng-app="appModule">
+    <div ng-controller="productsController">
+        <h3>Products</h3>
+        <button ng-click="printProductsByCategory()">Print Product By Category</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Cost</th>
+                    <th>Units</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="text" ng-model="newProduct.name">
+                    </td>
+                    <td>
+                        <select ng-model="newProduct.category">
+                            <option value="">---Select---</option>
+                            <option value="Stationary">Stationary</option>
+                            <option value="Utencil">Utencil</option>
+                            <option value="Electronics">Electronics</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" ng-model="newProduct.cost">
+                    </td>
+                    <td>
+                        <input type="number" ng-model="newProduct.units">
+                    </td>
+                    <td>
+                        <button ng-click="onAdd()">Add New</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-repeat="(category, products) in productsByCategory()">
+            <h3>{{category}}</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Cost</th>
+                        <th>Units</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="product in products">
+                        <td>{{$index+1}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.category}}</td>
+                        <td>{{product.cost}}</td>
+                        <td>{{product.units}}</td>
+                        <td>{{product.total}}</td>
+                        <td><button>Remove</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+</body>
+</html>
