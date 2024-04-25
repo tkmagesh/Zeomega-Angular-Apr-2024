@@ -17,3 +17,19 @@
 ## Repository
 https://github.com/tkmagesh/zeomega-angular-apr-2024
 
+## Angular JS
+- Framework for building RIA (Rich Internet Applications)
+
+### Building Blocks
+
+#### Controllers
+    - User Interaction Behavior
+
+#### Scope
+    
+
+#### Directives
+    - Encapsulates DOM manipulation logic
+#### Pipes
+#### Services
+#### Modules
