@@ -8,12 +8,15 @@
     <script>
         var appModule = angular.module('appModule', []);
         appModule.controller('productsController', function($scope){
-            $scope.products = [
-                'Mouse',
-                'Adapter',
-                'Stencil',
-                'Tablet PC'
-            ]
+            $scope.products = [ ];
+            $scope.newProductName = '';
+            $scope.onAdd = function(productName){
+                $scope.products.push(productName)
+                $scope.newProductName = '';
+            };
+            $scope.onRemove = function(idx){
+                $scope.products.splice(idx, 1)
+            };
         })
     </script>
 </head>
@@ -23,13 +26,13 @@
         <div>Count : {{products.length}}</div>
         <div>
             <label for="">Product Name :</label>
-            <input type="text" name="" id="">
-            <button>Add New</button>
+            <input type="text" ng-model="newProductName">
+            <button ng-click="onAdd(newProductName)">Add New</button>
         </div>
         <ul>
-            <li>
-                <span>Pen</span>
-                <span> <button> X </button> </span>
+            <li ng-repeat="product in products">
+                <span>{{product}}</span>
+                <span> <button ng-click="onRemove($index)"> X </button> </span>
             </li>
         </ul>
         <!-- 

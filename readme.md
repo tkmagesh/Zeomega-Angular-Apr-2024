@@ -30,6 +30,16 @@ https://github.com/tkmagesh/zeomega-angular-apr-2024
 
 #### Directives
     - Encapsulates DOM manipulation logic
-#### Pipes
+
+#### Filters
+    - Used to transform the data for presentation
+
+#### Factory
+#### Value
+#### Constant
+#### Provider
 #### Services
+
 #### Modules
+
+![image](./images/products-assignment.png)
