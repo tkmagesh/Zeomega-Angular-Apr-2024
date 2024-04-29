@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greeter</title>
+    <script src="angular.js"></script>
+    <script>
+        var appModule = angular.module("appModule", [])
+
+        appModule.factory('greeterFactory', function(){
+            // we create the object ourselves and return
+            var greeter = {
+                greet : function (userName){
+                    return `Hi ${userName}, Have a nice day!`
+                }
+            }
+            return greeter;
+        });
+
+        var greeterController = appModule.controller("greeterController", function($scope, greeterFactory){
+
+            $scope.greeterTitle = "My Greeter App";
+
+            $scope.userName = '';
+
+            $scope.greetMsg = '[Default greet message]';
+
+            $scope.onGreet = function(){
+                $scope.greetMsg = greeterFactory.greet($scope.userName)
+            };
+        })
+    </script>
+</head>
+<body ng-app="appModule">
+    <div id="greeter" ng-controller="greeterController">
+        <h3 ng-bind="greeterTitle">Greeter</h3>
+        <label for="">User Name :</label>
+        <input type="text" ng-model="userName">
+        <button ng-click="onGreet()">Greet</button>
+        <div>{{greetMsg}}</div>
+    </div>
+</body>
+</html>

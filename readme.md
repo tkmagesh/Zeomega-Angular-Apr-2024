@@ -36,6 +36,7 @@ https://github.com/tkmagesh/zeomega-angular-apr-2024
 #### Filters
     - Used to transform the data for presentation
 
+For handling NON-UI responsibilities
 #### Factory
 #### Value
 #### Constant
