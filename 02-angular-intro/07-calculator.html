@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        .positive {
+            color : green;
+        }
+        .negative {
+            color : red;
+        }
+    </style>
+    <script src="angular.js"></script>
+    <script>
+        var app = angular.module("app", []);
+        app.run(function($rootScope){
+            $rootScope.useChoice = '';
+            $rootScope.setUserChoice = function(userChoice){
+                $rootScope.userChoice = userChoice;
+            };
+        })
+        app.controller("calculator1Controller", function($scope){
+            $scope.n1 = 0;
+            $scope.n2 = 0;
+            $scope.result = 0;
+
+            $scope.onAdd = function(){
+                $scope.result = $scope.n1 + $scope.n2;
+            }
+
+            $scope.onSubtract = function(){
+                $scope.result = $scope.n1 - $scope.n2;
+            }
+
+            $scope.onMultiply = function(){
+                $scope.result = $scope.n1 * $scope.n2;
+            }
+
+            $scope.onDivide = function(){
+                $scope.result = $scope.n1 / $scope.n2;
+            }
+        })
+        app.controller("calculator2Controller", function($scope){
+            $scope.n1 = 0;
+            $scope.n2 = 0;
+            $scope.result = 0;
+            $scope.selectedOperation = '';
+            $scope.onCalculate = function(){
+                switch ($scope.selectedOperation) {
+                    case 'add':
+                        $scope.result = $scope.n1 + $scope.n2
+                        break;
+                    case 'subtract':
+                        $scope.result = $scope.n1 - $scope.n2
+                        break;
+                    case 'multiply':
+                        $scope.result = $scope.n1 * $scope.n2
+                        break;
+                    case 'divide':
+                        $scope.result = $scope.n1 / $scope.n2
+                        break;
+                
+                    default:
+                        break;
+                }
+            }
+        })
+    </script>
+</head>
+<body ng-app="app">
+    <button ng-click="setUserChoice('calculator-1')">Calculator-1</button>
+    <button ng-click="setUserChoice('calculator-2')">Calculator-2</button>
+    <div>{{userChoice}}</div>
+    <hr>
+    <div ng-controller="calculator1Controller" ng-if="userChoice == 'calculator-1'">
+        <h3>Calculator - 1</h3>
+        <hr>
+        <input type="number" ng-model="n1">
+        <input type="number" ng-model="n2">
+        <br>
+        <button ng-click="onAdd()">Add</button>
+        <button ng-click="onSubtract()">Subtract</button>
+        <button ng-click="onMultiply()">Multiply</button>
+        <button ng-click="onDivide()">Divide</button>
+        <div ng-class="{ positive : result >= 0, negative : result < 0}">{{result | currency:'INR'}}</div>
+    </div>
+    <div ng-controller="calculator2Controller" ng-if="userChoice == 'calculator-2'">
+        <h3>Calculator-2</h3>
+        <hr>
+        <input type="number" ng-model="n1">
+        <select ng-model="selectedOperation">
+            <option value="">---Select---</option>
+            <option value="add">Add</option>
+            <option value="subtract">Subtract</option>
+            <option value="multiply">Multiply</option>
+            <option value="divide">Divide</option>
+        </select>
+        <input type="number" ng-model="n2">
+        <button ng-click="onCalculate()" ng-disabled="!selectedOperation">Calculate</button>
+        <!-- <div ng-hide="selectedOperation">Select an operation!</div> -->
+        <div ng-if="!selectedOperation">Select an operation!</div>
+        <div ng-show="selectedOperation">{{result}}</div>
+    </div>
+</body>
+</html>
