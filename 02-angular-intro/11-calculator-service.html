@@ -17,61 +17,66 @@
         var app = angular.module("app", []);
         app.service("calculatorService", function(){
             this.result = 0;
+            this.n1 = 0;
+            this.n2 = 0;
+            this.selectedOperation = '';
 
-            this.add = function(n1, n2){
-                this.result = n1 + n2;
+            this.add = function(){
+                this.selectedOperation = 'add';
+                this.result = this.n1 + this.n2;
             }
-            this.subtract = function(n1, n2){
-                this.result = n1 - n2;
+            this.subtract = function(){
+                this.selectedOperation = 'subtract';
+                this.result = this.n1 - this.n2;
             }
-            this.multiply = function(n1, n2){
-                this.result = n1 * n2;
+            this.multiply = function(){
+                this.selectedOperation = 'multiply';
+                this.result = this.n1 * this.n2;
             }
-            this.divide = function(n1, n2){
-                this.result = n1 / n2;
+            this.divide = function(){
+                this.selectedOperation = 'divide';
+                this.result = this.n1 / this.n2;
             }
         })
         app.controller("calculator1Controller", function($scope, calculatorService){
-            $scope.n1 = 0;
-            $scope.n2 = 0;
-            $scope.calculatorService = calculatorService;
-
-            $scope.onAdd = function(){
-                calculatorService.add($scope.n1, $scope.n2)
-            }
-
-            $scope.onSubtract = function(){
-                calculatorService.subtract($scope.n1, $scope.n2)
-            }
-
-            $scope.onMultiply = function(){
-                calculatorService.multiply($scope.n1, $scope.n2)
-            }
-
-            $scope.onDivide = function(){
-                calculatorService.divide($scope.n1, $scope.n2)
-            }
-        })
-        app.controller("calculator2Controller", function($scope, calculatorService){
-            $scope.n1 = 0;
-            $scope.n2 = 0;
             
             $scope.calculatorService = calculatorService;
 
-            $scope.selectedOperation = '';
+            $scope.onAdd = function(){
+                calculatorService.add()
+            }
+
+            $scope.onSubtract = function(){
+                calculatorService.subtract()
+            }
+
+            $scope.onMultiply = function(){
+                calculatorService.multiply()
+            }
+
+            $scope.onDivide = function(){
+                calculatorService.divide()
+            }
+        })
+        app.controller("calculator2Controller", function($scope, calculatorService){
+            
+            $scope.operations = ['add', 'subtract', 'multiply', 'divide']
+            $scope.calculatorService = calculatorService;
+
+            
             $scope.onCalculate = function(){
                 switch ($scope.selectedOperation) {
                     case 'add':
-                        calculatorService.add($scope.n1, $scope.n2)
+                        calculatorService.add()
                         break;
                     case 'subtract':
-                        calculatorService.subtract($scope.n1, $scope.n2)
+                        calculatorService.subtract()
                         break;
                     case 'multiply':
-                        calculatorService.multiply($scope.n1, $scope.n2)
+                        calculatorService.multiply()
                         break;
                     case 'divide':
-                        calculatorService.divide($scope.n1, $scope.n2)
+                        calculatorService.divide()
                         break;
                 
                     default:
@@ -88,8 +93,8 @@
     <div ng-controller="calculator1Controller">
         <h3>Calculator - 1</h3>
         <hr>
-        <input type="number" ng-model="n1">
-        <input type="number" ng-model="n2">
+        <input type="number" ng-model="calculatorService.n1">
+        <input type="number" ng-model="calculatorService.n2">
         <br>
         <button ng-click="onAdd()">Add</button>
         <button ng-click="onSubtract()">Subtract</button>
@@ -100,15 +105,18 @@
     <div ng-controller="calculator2Controller">
         <h3>Calculator-2</h3>
         <hr>
-        <input type="number" ng-model="n1">
-        <select ng-model="selectedOperation">
+        <input type="number" ng-model="calculatorService.n1">
+        <!-- use ngOptions -->
+        <select ng-model="calculatorService.selectedOperation" ng-options="operation for operation in operations">
             <option value="">---Select---</option>
-            <option value="add">Add</option>
-            <option value="subtract">Subtract</option>
-            <option value="multiply">Multiply</option>
-            <option value="divide">Divide</option>
+            <!-- 
+                <option value="add">Add</option>
+                <option value="subtract">Subtract</option>
+                <option value="multiply">Multiply</option>
+                <option value="divide">Divide</option> 
+            -->
         </select>
-        <input type="number" ng-model="n2">
+        <input type="number" ng-model="calculatorService.n2">
         <button ng-click="onCalculate()" ng-disabled="!selectedOperation">Calculate</button>
         <div>{{calculatorService.result}}</div>
     </div>
