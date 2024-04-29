@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scope Hierarchy</title>
+    <script src="angular.js"></script>
+    <script>
+        var appModule = angular.module('appModule', [])
+        appModule.run(function($rootScope){
+            $rootScope.appName = 'Angular Scope App'
+            $rootScope.clearAppName = function(){
+                $rootScope.appName = '';
+            }
+            console.log('rootScope -> ', $rootScope)
+            console.log('appModule initialized')
+        });
+        appModule.controller('scopeCtl1', function($scope){
+           /*  
+           $scope.clearAppName = function(){
+                $scope.appName = '';
+                console.log('Ctl1Scope -> ', $scope)
+            } 
+            */
+            console.log('Ctl1Scope -> ', $scope)
+            console.log('Ctl1Scope.appName -> ',$scope.appName)
+        })
+    </script>
+    <style>
+        .box{
+            border : 1px solid gray;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body ng-app="appModule" class="box" >
+    <h3>Root</h3>
+    <div ng-bind="appName"></div>
+    <button ng-click="clearAppName()">Clear</button>
+    <div ng-controller="scopeCtl1" class="box">
+        <h3>Controller-1</h3>
+        <div ng-bind="appName"></div>
+        <button ng-click="clearAppName()">Clear</button>
+    </div>
+    
+    
+</body>
+</html>
