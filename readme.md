@@ -47,3 +47,24 @@ For handling NON-UI responsibilities
 
 ![image](./images/products-assignment.png)
 
+## ReST (Representational State Transfer)
+- Every resource (data) is accessible through a http end point (url)
+- Operations are communicated using HTTP Methods
+    - GET
+        - retrieve the data from the server
+    - POST
+        - Insert new data in the server
+    - PUT
+        - Update the given data in the server
+    - PATCH
+        - Partial update the given data in the server
+    - DELETE
+        - Remove the data in the server
+
+## JSON server
+    - Serve the data from a json file as rest end points
+
+```
+(From the folder that has the db.json file)
+npx json-server db.json
+```
