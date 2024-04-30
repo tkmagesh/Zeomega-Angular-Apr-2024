@@ -66,5 +66,32 @@ For handling NON-UI responsibilities
 
 ```
 (From the folder that has the db.json file)
-npx json-server db.json -p 3030
+npx json-server@0.17.4 db.json 
 ```
+
+## Evaluation Problem
+```
+    Check in the code in your personal github repo and share the link
+```
+
+1. Create a json file with list of products ( product => id, name, unitCost) and host it using json-server
+2. Create an angular application which shows the list of products from the server
+3. The angular app should allow the user to 
+    a. add new products to the list
+    b. search the products
+4. The angular app should display an empty 'shopping cart' initially
+5. The user should be able to add 1 or more products to the shopping cart
+5. The user should be able to modify the "number of units" for each product in the shopping cart
+6. The user should be able to remove a product from the shopping cart
+6. The Cart should display the overall cart value updated (sum of unitCost * units of all the products in the cart) 
+
+![image](./images/evaluation-problem.png)
+
+### Evaluation Criteria
+- UI (20)
+- Comments (10)
+- Variable Names (10)
+- Structuring (15)
+- Maintainability (15)
+- Validation (10)
+- Using appropriate angular building blocks (20)
