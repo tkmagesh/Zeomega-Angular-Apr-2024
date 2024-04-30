@@ -41,14 +41,14 @@
         }
     </style>
     <!--
-        1. Add a new bug 
-        2. List the bugs
-		3. Toggle the closed status of a bug
-        4.a Remove individual bug
-		4.b Remove closed bugs
-		5. Display statistics
-		6. Search for Bugs (use the 'filter' filter)
-		7. Sort the bugs (use the 'orderBy' filter)
+        1. Add a new bug (done)
+        2. List the bugs (done)
+		3. Toggle the closed status of a bug (done)
+        4.a Remove individual bug (done)
+		4.b Remove closed bugs (done)
+		5. Display statistics (done)
+		6. Search for Bugs (use the 'filter' filter) (done)
+		7. Sort the bugs (use the 'orderBy' filter) (done)
 		8. Improvise the bug display (truncate the bug name and append '...' if the bug name is > 30 chars)
 		9. Persist the bugs in the storage (localStorage)
 			window.localStorage
@@ -144,16 +144,18 @@
     </section>
     <section class="sort">
       <label for="">Order By :</label>
-      <select name="" id="">
-        <option value=""></option>
-        <option value=""></option>
+      <select ng-model="sortBug.attr">
+        <option value="">---Select---</option>
+        <option value="name">Name</option>
+        <option value="isClosed">Status</option>
+        <option value="createdAt">Created</option>
       </select>
       <label for="">Descending ?:</label>
-      <input type="checkbox" name="" id="" />
+      <input type="checkbox" ng-model="sortBug.isDesc" />
     </section>
     <section class="list">
       <ul>
-        <li ng-repeat="bug in bugs | filter:searchBug">
+        <li ng-repeat="bug in bugs | filter:searchBug | orderBy:sortBug.attr:sortBug.isDesc">
           <span 
             class="bugname" 
             ng-click="onBugNameClick(bug)"
