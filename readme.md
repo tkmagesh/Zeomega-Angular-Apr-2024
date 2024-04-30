@@ -66,5 +66,5 @@ For handling NON-UI responsibilities
 
 ```
 (From the folder that has the db.json file)
-npx json-server db.json
+npx json-server db.json -p 3030
 ```
