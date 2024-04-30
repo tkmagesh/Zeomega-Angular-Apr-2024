@@ -68,12 +68,13 @@
 			====
 				* use angular.toJson() and angular.fromJson() for serialization and deserialization of data respectively
 				
-		10. Display 'createdAt'
+		10. Display 'createdAt' (done)
 		11. Persist the bugs in the server
 		12. Implement Routing
 
      -->
      <script src="angular.js"></script>
+     <script src="moment.js"></script>
      <script>
         var bugTrackerApp = angular.module('bugTrackerApp', []);
         bugTrackerApp.service('bugOperations', function(){
@@ -168,6 +169,12 @@
             }
         });
 
+        bugTrackerApp.filter('elapsed', function(){
+            return function(value){
+                return moment(value).fromNow()
+            }
+        });
+
      </script>
   </head>
   <body ng-app="bugTrackerApp" ng-controller="bugsController">
@@ -213,7 +220,7 @@
             {{bug.name | trimText:30}}
           </span>
           <div>[ {{bug.isClosed}} ]</div>
-          <div class="datetime">{{bug.createdAt}}</div>
+          <div class="datetime" title="{{bug.createdAt | date:'dd-MMM-yyyy hh:mm:ss a'}}">{{bug.createdAt | elapsed}}</div>
           <button ng-click="onRemoveClick(bug)">Remove</button>
         </li>
       </ul>
