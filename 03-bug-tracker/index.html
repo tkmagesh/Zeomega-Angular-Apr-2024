@@ -50,7 +50,7 @@
 		6. Search for Bugs (use the 'filter' filter) (done)
 		7. Sort the bugs (use the 'orderBy' filter) (done)
 		8. Improvise the bug display (truncate the bug name and append '...' if the bug name is > 30 chars)
-		9. Persist the bugs in the storage (localStorage)
+		9. Persist the bugs in the storage (localStorage) (done)
 			window.localStorage
 			===================
 			1. key/value store
@@ -66,7 +66,7 @@
 
 			hint
 			====
-				* use angular.toJson() and angular.fromJson() for serialization and deserialization respectively
+				* use angular.toJson() and angular.fromJson() for serialization and deserialization of data respectively
 				
 		10. Display 'createdAt'
 		11. Persist the bugs in the server
@@ -76,36 +76,78 @@
      <script src="angular.js"></script>
      <script>
         var bugTrackerApp = angular.module('bugTrackerApp', []);
-        bugTrackerApp.controller('bugsController', function($scope){
-            var newBugId = 0;
-            $scope.bugs = [
-                {id : 1, name : 'Server communication failure', isClosed : false, createdAt : new Date()},
-                {id : 2, name : 'User actions not recognize', isClosed : true, createdAt : new Date()},
-                {id : 3, name : 'Data integrity checks failed', isClosed : false, createdAt : new Date()},
-                {id : 4, name : 'Authentication failure', isClosed : false, createdAt : new Date()},
-            ];
-            $scope.onAddNew = function(newBugName){
+        bugTrackerApp.service('bugOperations', function(){
+             
+             this.createNew = function(newBugName){
                 var newBug = {
-                    id : ++newBugId,
+                    id : 0,
                     name : newBugName,
                     isClosed : false,
                     createdAt : new Date()
                 };
+                return newBug;
+             }
+             this.toggle = function(bug){
+                bug.isClosed = !bug.isClosed
+             }
+
+        })
+        
+        bugTrackerApp.service('bugStorage', function(){
+            var newBugId = 0;
+            var storage = window.localStorage;
+
+            this.save = function(bug){
+                if (bug.id == 0){
+                    bug.id = ++newBugId
+                }
+                storage.setItem(bug.id, angular.toJson(bug))    
+            };
+
+            this.remove = function(bug){
+                storage.removeItem(bug.id)
+            };
+
+            this.getAll = function(){
+                var bugs = [];
+                for (var idx = 0; idx < storage.length; idx++){
+                    var key = storage.key(idx),
+                        data = storage.getItem(key),
+                        bug = angular.fromJson(data);
+                    if (newBugId < bug.id){
+                        newBugId = bug.id;
+                    }
+                    bugs.push(bug)
+                }
+                return bugs;
+            }
+        })
+        bugTrackerApp.controller('bugsController', function($scope, bugOperations, bugStorage){
+           
+            $scope.bugs = bugStorage.getAll();
+
+            $scope.onAddNew = function(newBugName){
+                var newBug = bugOperations.createNew(newBugName)
+                bugStorage.save(newBug)
                 $scope.bugs.push(newBug)
             };
 
             $scope.onBugNameClick = function(bug){
-                bug.isClosed = !bug.isClosed;
+                bugOperations.toggle(bug)
+                bugStorage.save(bug)
             };
 
             $scope.onRemoveClick = function(bugToRemove){
                 var idxToRemove = $scope.bugs.indexOf(bugToRemove)
+                bugStorage.remove(bugToRemove)
                 $scope.bugs.splice(idxToRemove, 1)
+
             };
 
             $scope.onRemoveClosedClick = function(){
                 for (var idx = $scope.bugs.length-1; idx >= 0; idx--){
                     if ($scope.bugs[idx].isClosed){
+                        bugStorage.remove($scope.bugs[idx])
                         $scope.bugs.splice(idx, 1)
                     }
                 }
@@ -119,6 +161,13 @@
                 }, 0)
             }
         })
+
+        bugTrackerApp.filter('trimText', function(){
+            return function(txt, maxLength){
+                return txt.length < maxLength ? txt : txt.substr(0,maxLength) + '...'
+            }
+        });
+
      </script>
   </head>
   <body ng-app="bugTrackerApp" ng-controller="bugsController">
@@ -161,7 +210,7 @@
             ng-click="onBugNameClick(bug)"
             ng-class="{closed : bug.isClosed}"
           >
-            {{bug.name}}
+            {{bug.name | trimText:30}}
           </span>
           <div>[ {{bug.isClosed}} ]</div>
           <div class="datetime">{{bug.createdAt}}</div>
